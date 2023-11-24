@@ -94,11 +94,10 @@ defaultMain :: Diagram Rasterific -> IO ()
 defaultMain = mainWith
 
 instance TypeableFloat n => Mainable (QDiagram Rasterific V2 n Any) where
-  type MainOpts (QDiagram Rasterific V2 n Any) = (DiagramOpts, DiagramLoopOpts)
+  type MainOpts (QDiagram Rasterific V2 n Any) = DiagramOpts
 
-  mainRender (opts,loopOpts) d = do
+  mainRender opts d = do
       chooseRender opts d
-      defaultLoopRender loopOpts
 
 chooseRender :: TypeableFloat n => DiagramOpts -> QDiagram Rasterific V2 n Any -> IO ()
 chooseRender opts d
@@ -160,11 +159,10 @@ animMain = mainWith
 
 instance TypeableFloat n => Mainable (Animation Rasterific V2 n) where
   type MainOpts (Animation Rasterific V2 n) =
-    ((DiagramOpts, DiagramAnimOpts), DiagramLoopOpts)
+    (DiagramOpts, DiagramAnimOpts)
 
-  mainRender (opts, l) d = do
+  mainRender opts d = do
     defaultAnimMainRender chooseRender output opts d
-    defaultLoopRender l
 
 -- | Extra options for animated GIFs.
 data GifOpts = GifOpts { _dither     :: Bool
