@@ -1,7 +1,6 @@
 {-# LANGUAGE ConstraintKinds   #-}
 {-# LANGUAGE CPP               #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE TemplateHaskell   #-}
 {-# LANGUAGE TupleSections     #-}
 {-# LANGUAGE TypeFamilies      #-}
 
@@ -169,7 +168,21 @@ data GifOpts = GifOpts { _dither     :: Bool
                        , _noLooping  :: Bool
                        , _loopRepeat :: Maybe Int}
 
-makeLenses ''GifOpts
+dither :: Lens' GifOpts Bool
+dither f_aQkx (GifOpts x1_aQky x2_aQkz x3_aQkA)
+  = fmap
+      (\ y1_aQkB -> GifOpts y1_aQkB x2_aQkz x3_aQkA) (f_aQkx x1_aQky)
+{-# INLINE dither #-}
+loopRepeat :: Lens' GifOpts (Maybe Int)
+loopRepeat f_aQkC (GifOpts x1_aQkD x2_aQkE x3_aQkF)
+  = fmap
+      (\ y1_aQkG -> GifOpts x1_aQkD x2_aQkE y1_aQkG) (f_aQkC x3_aQkF)
+{-# INLINE loopRepeat #-}
+noLooping :: Lens' GifOpts Bool
+noLooping f_aQkH (GifOpts x1_aQkI x2_aQkJ x3_aQkK)
+  = fmap
+      (\ y1_aQkL -> GifOpts x1_aQkI y1_aQkL x3_aQkK) (f_aQkH x2_aQkJ)
+{-# INLINE noLooping #-}
 
 -- | Command line parser for 'GifOpts'.
 --   @--dither@ turn dithering on.
